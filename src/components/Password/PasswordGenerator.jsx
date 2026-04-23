@@ -49,7 +49,8 @@ export default function PasswordGenerator() {
             genPassword.push(randomLetter());
         }
 
-        const finalPassword = genPassword.join("");
+        const shuffledPassword = shufflePassword(genPassword);
+        const finalPassword = shuffledPassword.join("");
 
         setPassword(finalPassword);
         setCopied(false);
@@ -63,6 +64,14 @@ export default function PasswordGenerator() {
     function copyText() {
         navigator.clipboard.writeText(password);
         setCopied(true);
+    }
+
+    function shufflePassword(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+        return array;
     }
 
     return (
@@ -92,7 +101,7 @@ export default function PasswordGenerator() {
                 <button className="rounded text-white bg-purple-600 px-3 py-2 mt-4"
                     onClick={() => generatePassword()}>Generate</button>
             </div>
-            <div className="mt-4">
+            <div className="mt-4 mb-20">
                 <span className="font-mono">Your password is: <b className="bg-gray-200 dark:bg-gray-700">{password} </b> </span>
                 <div>
                     {password ? <button className="rounded text-white bg-blue-400 px-1 py-1 mt-2"
